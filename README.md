@@ -96,6 +96,59 @@ npm start
 cd specsolver
 ```
 
+## Architecture
+
+```plantuml
+' Define entities
+entity Requirement {
+  +ID: string
+  --
+  +Description: string
+  +Type: string
+  +Priority: string
+  +Status: string
+  +Dependencies: List<string>
+}
+
+entity Component {
+  +ID: string
+  --
+  +Name: string
+  +Description: string
+  +Type: string
+  +RelatedRequirements: List<string>
+  +Dependencies: List<string>
+}
+
+entity Relationship {
+  +SourceID: string
+  +TargetID: string
+  --
+  +Type: string
+  +Description: string
+}
+
+entity Parameter {
+  +ID: string
+  --
+  +Name: string
+  +Value: string
+  +Unit: string
+  +RelatedComponents: List<string>
+}
+
+' Define relationships
+Requirement "1" -- "many" Requirement : depends on
+Requirement "1" -- "many" Component : related to
+Component "1" -- "many" Component : depends on
+Component "1" -- "many" Parameter : has
+Parameter "1" -- "many" Component : related to
+
+' Define relationship entity connections
+Requirement "1" -- "many" Relationship : has
+Component "1" -- "many" Relationship : has
+```
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.
